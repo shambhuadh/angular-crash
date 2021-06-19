@@ -9,6 +9,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TasksComponent implements OnInit {
   tasks: Task[];
+  flg_tasks = true;
 
   constructor(private taskService: TaskService) { }
 
