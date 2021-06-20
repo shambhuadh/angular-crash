@@ -1,3 +1,8 @@
-<app-add-task *ngIf="flg_tasks" (onAddTask)="addTask($event)"></app-add-task>
-<app-task-item *ngFor="let task of tasks" [task]="task" (onDeletebtn)="onDeleteTask(task)" (onToggleReminder)="toggleReminder(task)">
+<app-add-task *ngIf="showAddTask" (onAddTask)="addTask($event)"></app-add-task>
+<app-task-item 
+    [ngStyle]="{'background-color' : 'red'}" 
+    *ngFor="let task of tasks" [task]="task" 
+    (onDeletebtn)="onDeleteTask(task)" 
+    (onToggleReminder)="toggleReminder(task)"
+    (onAddTaskToggle)="onAddTaskToggle">
 </app-task-item>

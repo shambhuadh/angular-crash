@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../../Task';
 import { TaskService } from 'src/app/services/task.service';
+import { ElementRef } from '@angular/core';
+import { UiService } from 'src/app/services/ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -9,12 +12,15 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TasksComponent implements OnInit {
   tasks: Task[];
-  flg_tasks = true;
+  showAddTask;
+  subscription: Subscription;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private elementRef: ElementRef, private uiService: UiService) { }
 
   ngOnInit(): void {
-      this.taskService.getTasks().subscribe((tasks) => this.tasks = tasks)
+    //this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'grey';
+      this.taskService.getTasks().subscribe((tasks) => this.tasks = tasks);
+      this.subscription = this.uiService.onToggle().subscribe(value => this.showAddTask = <boolean>value);
   }
 
   onDeleteTask(task){
@@ -30,6 +36,10 @@ export class TasksComponent implements OnInit {
   addTask(task){
     this.taskService.addTask(task).subscribe();
     this.tasks.push(task);
+    this.uiService.onAddToggle();
   }
 
+  onAddTaskToggle(){
+    this.uiService.onAddToggle();
+  }
 }
